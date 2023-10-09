@@ -22,5 +22,3 @@ def get_dict_distance(current_location):
         distance = calculate_distance(current_location,country)
         dict_distance[country] = distance
     return dict_distance
-dict_distance = get_dict_distance("Finland")
-print(dict_distance)

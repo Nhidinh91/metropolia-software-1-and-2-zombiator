@@ -123,7 +123,7 @@ while player_weapon < final_weapon:
 
                     print(f"Now you have {player_money} euros and {player_weapon} weapons.\n")
             else:
-                print("You need to buy more fuel to get there or choose another country.\n")
+                print(f"You need to buy {(need_fuel)-(player_fuel)} liters of fuel to get there or choose another country.\n")
     else:
         print("Invalid command")
 

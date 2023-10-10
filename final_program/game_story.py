@@ -1,5 +1,5 @@
 
-story = '''One day, a strange virus invaded Earth, turning people into zombies.
+story = '''In 2025, the environment on Earth was seriously damaged. That leads to a pandemic: a strange virus invaded Earth, turning people into zombies.
 It broke out in Spain and spread throughout the world, except Finland, the only country that was still safe.
 
 You are a hero in Finland, on a mission to go to other countries to save survivors in different countries 

@@ -15,7 +15,7 @@ import ranking as rk
 player_money = 500
 player_fuel = 200
 player_weapon = 200
-final_weapon = 2000
+final_weapon = 700
 final_reward = 10000
 current_location = "Finland"
 final_location = "Spain"
@@ -128,7 +128,7 @@ while player_weapon < final_weapon:
 
 print(f"You have enough weapons to rescue people in the last country: {final_location}. Lets go to Madrid.\n")
 print(f"It takes you {final_weapon} weapons to complete the final mission")
-print(f"Bravo! You have completed the final mission!\nYou got {final_reward} euros as a reward.\n")
+print(f"Congratulation! You have completed the final mission!\nYou got {final_reward} euros as a reward.\nNow you are the hero.\nLet's continue your next adventure: bring back the green planet. \nSee you in the next stage!")
 
 # Update new location
 pl.update_player(player, final_location)

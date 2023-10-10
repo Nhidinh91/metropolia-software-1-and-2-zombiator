@@ -10,7 +10,7 @@ def need_weapon_and_reward():
     list_country = dis.get_dict_distance("Finland")
     count = 0
     for country in list_country:
-        if count == 4 and "hard" in difficult:
+        if count == 2 and "hard" in difficult:
             difficult.remove("hard")
         difficult_level = random.choice(difficult)
         if difficult_level == "hard":

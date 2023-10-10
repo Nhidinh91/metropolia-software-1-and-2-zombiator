@@ -105,7 +105,6 @@ while player_weapon < final_weapon:
                     player_weapon -= need_weapon
                     print(f"Congratulation! You have completed the mission to rescue {country_name}.")
                     rewards = condition_and_reward[country_name]
-                    print(rewards)
                     print(f"Here is your rewards for this mission:\n{rewards[1]} euros.\n{rewards[2]} weapons")
                     player_money += rewards[1]
                     player_weapon += rewards[2]

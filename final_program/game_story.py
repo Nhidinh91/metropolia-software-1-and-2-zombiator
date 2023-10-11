@@ -1,6 +1,7 @@
 
-story = '''In 2025, the environment on Earth was seriously damaged. That leads to a pandemic: a strange virus invaded Earth, turning people into zombies.
-It broke out in Spain and spread throughout the world, except Finland, the only country that was still safe.
+story = '''In 2025, the environment on Earth is seriously damaged.
+That leads to a pandemic: a strange virus invaded Earth, turning people into zombies.
+It breaks out in Spain and spread throughout the world, except Finland, the only country that is still safe.
 
 You are a hero in Finland, on a mission to go to other countries to save survivors in different countries 
 You will need money, fuel, and weapons to complete the mission.

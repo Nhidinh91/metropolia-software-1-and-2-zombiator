@@ -65,6 +65,8 @@ while player_weapon < final_weapon:
 
     command = input("You choose: \n")
     if command == "2":
+        max_distance = mdis.calculate_maxdistance(player_money, player_fuel)
+        dict_distance = dis.get_dict_distance(current_location)
         print(f"You have:\n{player_money} euros.\n{player_fuel} liters of fuel.\n{player_weapon} weapons")
         print("\nList of the approachable airports with your fuel and money at present:")
         lp.list_airport(max_distance, dict_distance)

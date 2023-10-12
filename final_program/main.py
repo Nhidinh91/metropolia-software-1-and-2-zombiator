@@ -79,7 +79,7 @@ while player_weapon < final_weapon:
                     if player_money >= spent_money:
                         player_money -= spent_money
                         player_fuel += amount_fuel
-                        print(f"You have successfully purchased fuel. It took you {spent_money} euros.\nNow you have {player_money} euros and {player_fuel} liters of fuel")
+                        print(f"You have successfully purchased fuel. It took you {round(spent_money,0)} euros.\nNow you have {player_money} euros and {player_fuel} liters of fuel")
                         break
                     else:
                         print("You don't have enough money to buy this amount of fuel. Try again with a different quantity.\n")

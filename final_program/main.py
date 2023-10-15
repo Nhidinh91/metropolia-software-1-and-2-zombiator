@@ -15,7 +15,7 @@ import ranking as rk
 player_money = 500
 player_fuel = 200
 player_weapon = 200
-final_weapon = 700
+final_weapon = 500
 final_reward = 10000
 current_location = "Finland"
 final_location = "Spain"
@@ -37,9 +37,8 @@ if not pl.is_player_existed(player):
     print(f"Hello {player}. ")
 else:
     # If the user exists, print a welcome back message and set location to default
-    pl.update_player(player, current_location)
+    pl.update_player(player[0], current_location)
     print(f"Welcome back, {player}. ")
-
 
 # Get user info
 player_info = pl.get_player_info(player)
@@ -128,15 +127,14 @@ while player_weapon < final_weapon:
     else:
         print("Invalid command")
 
-print(f"You have enough weapons to rescue people in the last country: {final_location}. Lets go to Madrid.\n")
-print(f"It takes you {final_weapon} weapons to complete the final mission")
+print(f"You have enough weapons to rescue people in the last country: {final_location}. Lets go to Madrid.")
+print(f"It takes you {final_weapon} weapons to complete the final mission\n")
 print(f"Congratulation! You have completed the final mission!\nYou got {final_reward} euros as a reward.\nNow you are the hero.\nLet's continue your next adventure: bring back the green planet. \nSee you in the next stage!")
 
 # Update new location
-pl.update_player(player, final_location)
-
-# Calculate score
+pl.update_player(player[0], final_location)
 distance = cd.calculate_distance(current_location, final_location)
+# Calculate score
 need_fuel = fc.fuel_consumed(distance)
 player_money += final_reward
 player_fuel -= need_fuel
@@ -159,7 +157,7 @@ check_ranking = input("Would you like to see your rankings?(y/n)\n")
 if check_ranking == "y":
     all_rankings = rk.get_all_player_ranking()
     for index, ranking in enumerate(all_rankings, start=1):
-        if ranking[0] == player:
+        if ranking[0] == player_info[0]:
             print(f"{index}/ \033[1m{ranking[0]} {ranking[1]}\033[0m <-----Here is your ranking")
         else:
             print(f"{index}/ {ranking[0]} {ranking[1]}")

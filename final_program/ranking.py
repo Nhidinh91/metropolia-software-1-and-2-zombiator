@@ -29,7 +29,7 @@ def update_player_score(player_id, new_score):
 
 # This function is used to get all player ranking from the database
 def get_all_player_ranking():
-    sql = "SELECT player.name, ranking.score FROM ranking JOIN player ON ranking.player_id = player.id ORDER BY ranking.score DESC"
+    sql = "SELECT player.id, player.name, ranking.score FROM ranking JOIN player ON ranking.player_id = player.id ORDER BY ranking.score DESC"
 
     connection, cursor = db.db_connection()
 

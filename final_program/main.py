@@ -158,6 +158,6 @@ if check_ranking == "y":
     all_rankings = rk.get_all_player_ranking()
     for index, ranking in enumerate(all_rankings, start=1):
         if ranking[0] == player_info[0]:
-            print(f"{index}/ \033[1m{ranking[0]} {ranking[1]}\033[0m <-----Here is your ranking")
+            print(f"{index}/ \033[1m{ranking[1]} {ranking[2]}\033[0m <-----Here is your ranking")
         else:
-            print(f"{index}/ {ranking[0]} {ranking[1]}")
+            print(f"{index}/ {ranking[1]} {ranking[2]}")

@@ -3,18 +3,20 @@ import dbconnection as db
 
 # This function is used to check if the player is existed in the database
 def is_player_existed(player_name):
-    sql = "SELECT id, name FROM player WHERE name = %s"
-    values = (player_name,)
+    sql = "SELECT id, name FROM player"
 
     connection, cursor = db.db_connection()
 
     player_exist = False
     if cursor is not None:
-        cursor.execute(sql, values)
-        result = cursor.fetchone()
+        cursor.execute(sql)
+        result = cursor.fetchall()
 
-        if result:
-            player_exist = True
+        if cursor.rowcount > 0:
+            for row in result:
+                if row[1] == player_name:
+                    player_exist = True
+                    break
 
     cursor.close()
     connection.close()
@@ -24,18 +26,19 @@ def is_player_existed(player_name):
 
 # This function is used to get the player info from the database
 def get_player_info(player_name):
-    sql = "SELECT id, name FROM player WHERE name = %s"
-    values = (player_name,)
+    sql = "SELECT id, name FROM player"
 
     connection, cursor = db.db_connection()
 
     player_info = None
     if cursor is not None:
-        cursor.execute(sql, values)
-        result = cursor.fetchone()
+        cursor.execute(sql)
+        result = cursor.fetchall()
 
-        if result:
-            player_info = result
+        if cursor.rowcount > 0:
+            for row in result:
+                if row[1] == player_name:
+                    player_info = (row[0], row[1])
 
     cursor.close()
     connection.close()
@@ -58,9 +61,9 @@ def add_player(name, location):
 
 
 # This function is used to update the player location in the database
-def update_player(name, new_location):
-    sql = "UPDATE player SET location = %s WHERE name = %s"
-    values = (new_location, name)
+def update_player(player_id, new_location):
+    sql = "UPDATE player SET location = %s WHERE id = %s"
+    values = (new_location, player_id)
 
     connection, cursor = db.db_connection()
     if cursor is not None:

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zombiator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="CSS/game_play_styles.css" rel="stylesheet">
+    <script>
+        function setLoggedEmail(email) {
+          document.getElementById('loggedEmail').innerText = email;
+        }
+    </script>
+</head>
+<body>
+ <div class="container">
+    <div class="left-div">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22059342.14018499!2d1.0317059416170917!3d47.55240042408019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46ed8886cfadda85%3A0x72ef99e6b3fcf079!2sEurope!5e0!3m2!1sen!2sfi!4v1700954614445!5m2!1sen!2sfi" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="right-div">
+        <div class="row">
+        <div class="column">
+           <div class="content-email">
+              <h2>Welcome on board,</h2>
+              <p class ="onboard-email" id="loggedEmail"></p>
+            </div>
+            <div class="content-time-remaining">
+              <p class="time-remaining">Time Remaining</p>
+              <p class="time-response-label"><span id="countdown">15:00</span></p>
+            </div>
+        </div>
+     </div>
+      <div class="row">
+        <div class="column">
+            <div class="content-inventory">
+            <h2 class="content-inventory-h2">Your Inventory</h2>
+            </div>
+            <div class="content-inventory-header">
+             <div class="content-inventory-image-weapons">
+            <h2 class="image-weapons-h2">500</h2>
+            <h5 class="image-weapons-h5">Weapons</h5>
+            </div>
+            <div class="content-inventory-image-energy">
+            <h2 class="image-energy-h2">500</h2>
+            <h5 class="image-energy-h5">Energy</h5>
+            </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+            <div class="content-fragment">
+            <h2 class="content-fragment-h2">Password Fragments Collected</h2>
+            </div>
+            <div class="content-fragment-header">
+            <div class="content-fragment-image">
+            </div>
+            <div class="content-fragment-image">
+            </div>
+            <div class="content-fragment-image">
+            </div>
+            <div class="content-fragment-image">
+            </div>
+            <div class="content-fragment-image">
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+          var timeInMinutes = 15;
+    var currentTime = Date.parse(new Date());
+    var deadline = new Date(currentTime + timeInMinutes * 60 * 1000);
+
+    function getTimeRemaining(endtime) {
+      var total = Date.parse(endtime) - Date.parse(new Date());
+      var minutes = Math.floor((total / 1000 / 60) % 60);
+      var seconds = Math.floor((total / 1000) % 60);
+
+      return {
+        'total': total,
+        'minutes': minutes < 10 ? '0' + minutes : minutes,
+        'seconds': seconds < 10 ? '0' + seconds : seconds
+      };
+    }
+
+    function updateClock() {
+      var t = getTimeRemaining(deadline);
+      document.getElementById('countdown').innerText = t.minutes + ':' + t.seconds;
+
+      if (t.total <= 0) {
+        clearInterval(timeinterval);
+      }
+    }
+
+    updateClock(); 
+    var timeinterval = setInterval(updateClock, 1000);
+
+    var pythonResponse = { email: "lihinih@metropolia.fi" };
+    setLoggedEmail(pythonResponse.email);
+  </script>
+</body>
+</html>

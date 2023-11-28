@@ -7,64 +7,76 @@ create table airport
     longitude_deg DOUBLE      NULL,
     continent     VARCHAR(40) NULL,
     country       VARCHAR(40) NULL,
-    gps_code      VARCHAR(40) NULL,
-    iata_code     VARCHAR(40) NULL,
-    local_code    VARCHAR(40) NULL
+    stage         INT         NULL DEFAULT 0
 );
 
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (123, 'BIKF', 'Keflavik International Airport', 63.985001, -22.6056, 'EU', 'Iceland', 'BIKF', 'KEF', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2155, 'EBBR', 'Brussels Airport', 50.901401519800004, 4.48443984985, 'EU', 'Belgium', 'EBBR', 'BRU', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (301881, 'EDDB', 'Berlin Brandenburg Airport', 52.351389, 13.493889, 'EU', 'Germany', 'EDDB', 'BER', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2301, 'EETN', 'Lennart Meri Tallinn Airport', 59.41329956049999, 24.832799911499997, 'EU', 'Estonia', 'EETN', 'TLL', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2307, 'EFHK', 'Helsinki Vantaa Airport', 60.3172, 24.963301, 'EU', 'Finland', 'EFHK', 'HEL', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2513, 'EHAM', 'Amsterdam Airport Schiphol', 52.308601, 4.76389, 'EU', 'Netherlands', 'EHAM', 'AMS', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2541, 'EKBI', 'Billund Airport', 55.7402992249, 9.15178012848, 'EU', 'Denmark', 'EKBI', 'BLL', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2563, 'ELLX', 'Luxembourg-Findel International Airport', 49.6233333, 6.2044444, 'EU', 'Luxembourg', 'ELLX', 'LUX', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2570, 'ENBR', 'Bergen Airport, Flesland', 60.2934, 5.21814, 'EU', 'Norway', 'ENBR', 'BGO', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2608, 'EPGD', 'Gdańsk Lech Wałęsa Airport', 54.377601623535156, 18.46619987487793, 'EU', 'Poland', 'EPGD', 'GDN', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2648, 'ESGG', 'Gothenburg-Landvetter Airport', 57.662799835205, 12.279800415039, 'EU', 'Sweden', 'ESGG', 'GOT', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2758, 'EVRA', 'Riga International Airport', 56.92359924316406, 23.971099853515625, 'EU', 'Latvia', 'EVRA', 'RIX', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (2766, 'EYVI', 'Vilnius International Airport', 54.634102, 25.285801, 'EU', 'Lithuania', 'EYVI', 'VNO', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (3077, 'GCFV', 'Fuerteventura Airport', 28.4527, -13.8638, 'EU', 'Spain', 'GCFV', 'FUE', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (3972, 'LATI', 'Tirana International Airport Mother Tere', 41.4146995544, 19.7206001282, 'EU', 'Albania', 'LATI', 'TIA', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (3993, 'LDZA', 'Zagreb Airport', 45.7429008484, 16.0687999725, 'EU', 'Croatia', 'LDZA', 'ZAG', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4060, 'LFBD', 'Bordeaux-Mérignac Airport', 44.8283, -0.715556, 'EU', 'Falkland Islands', 'LFBD', 'BOD', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4251, 'LGAV', 'Athens Eleftherios Venizelos Internation', 37.936401, 23.9445, 'EU', 'Greece', 'LGAV', 'ATH', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4296, 'LHBP', 'Budapest Liszt Ferenc International Airp', 47.42976, 19.261093, 'EU', 'Hungary', 'LHBP', 'BUD', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4318, 'LICC', 'Catania-Fontanarossa Airport', 37.466801, 15.0664, 'EU', 'Italy', 'LICC', 'CTA', 'CT03');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4386, 'LJLJ', 'Ljubljana Jože Pučnik Airport', 46.223701, 14.4576, 'EU', 'Slovenia', 'LJLJ', 'LJU', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4408, 'LKPR', 'Václav Havel Airport Prague', 50.1008, 14.26, 'EU', 'Czech Republic', 'LKPR', 'PRG', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4427, 'LMML', 'Malta International Airport', 35.857498, 14.4775, 'EU', 'Malta', 'LMML', 'MLA', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4434, 'LOWW', 'Vienna International Airport', 48.110298, 16.5697, 'EU', 'Austria', 'LOWW', 'VIE', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4448, 'LPFR', 'Faro Airport', 37.0144004822, -7.96590995789, 'EU', 'Portugal', 'LPFR', 'FAO', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4490, 'LSGG', 'Geneva Cointrin International Airport', 46.23809814453125, 6.108950138092041, 'EU', 'Switzerland', 'LSGG', 'GVA', '');
-INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, gps_code, iata_code, local_code) VALUES (4617, 'LZIB', 'M. R. Štefánik Airport', 48.17020034790039, 17.21269989013672, 'EU', 'Slovakia', 'LZIB', 'BTS', '');
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (11, 'BIKF', 'Keflavik International Airport', 63.985001, -22.6056, 'EU', 'Iceland', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (2, 'EBBR', 'Brussels Airport', 50.901401519800004, 4.48443984985, 'EU', 'Belgium', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (8, 'EDDB', 'Frankfurt am Main Airport', 50.036249, 8.559294, 'EU', 'Germany', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (5, 'EETN', 'Lennart Meri Tallinn Airport', 59.41329956049999, 24.832799911499997, 'EU', 'Estonia', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (6, 'EFHK', 'Helsinki Vantaa Airport', 60.3172, 24.963301, 'EU', 'Finland', 1);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (17, 'EHAM', 'Amsterdam Airport Schiphol', 52.308601, 4.76389, 'EU', 'Netherlands', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (4, 'EKBI', 'Copenhagen Airport', 55.617900848389, 12.656000137329, 'EU', 'Denmark', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (15, 'ELLX', 'Luxembourg-Findel International Airport', 49.6233333, 6.2044444, 'EU', 'Luxembourg', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (18, 'ENBR', 'Oslo Airport, Gardermoen', 60.193901, 11.1004, 'EU', 'Norway', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (19, 'EPGD', 'Warsaw Chopin Airport', 52.1656990051, 20.967100143399996, 'EU', 'Poland', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (24, 'ESGG', 'Stockholm-Arlanda Airport', 59.651901245117, 17.918600082397, 'EU', 'Sweden', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (13, 'EVRA', 'Riga International Airport', 56.92359924316406, 23.971099853515625, 'EU', 'Latvia', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (14, 'EYVI', 'Vilnius International Airport', 54.634102, 25.285801, 'EU', 'Lithuania', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (23, 'GCFV', 'Adolfo Suárez Madrid–Barajas Airport', 40.471926, -3.56264, 'EU', 'Spain', 2);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (7, 'LFPG', 'Charles de Gaulle International Airport', 49.012798, 2.55, 'EU', 'France', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (9, 'LGAV', 'Athens Eleftherios Venizelos Internation', 37.936401, 23.9445, 'EU', 'Greece', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (10, 'LHBP', 'Budapest Liszt Ferenc International Airp', 47.42976, 19.261093, 'EU', 'Hungary', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (12, 'LICC', 'Leonardo da Vinci-Fiumicino Airport', 41.804532, 12.251998, 'EU', 'Italy', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (22, 'LJLJ', 'Ljubljana Joze Pucnik Airport', 46.223701, 14.4576, 'EU', 'Slovenia', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (3, 'LKPR', 'Václav Havel Airport Prague', 50.1008, 14.26, 'EU', 'Czech Republic', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (16, 'LMML', 'Malta International Airport', 35.857498, 14.4775, 'EU', 'Malta', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (1, 'LOWW', 'Vienna International Airport', 48.110298, 16.5697, 'EU', 'Austria', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (20, 'LPFR', 'Humberto Delgado Airport (Lisbon Portela', 38.7813, -9.13592, 'EU', 'Portugal', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (25, 'LSGG', 'Zürich Airport', 47.458056, 8.548056, 'EU', 'Switzerland', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (21, 'LZIB', 'M. R. Štefánik Airport', 48.17020034790039, 17.21269989013672, 'EU', 'Slovakia', 0);
 
 CREATE TABLE reward (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(40) NOT NULL,
-    min_amount INT NULL,
-    max_amount INT NULL,
+    amount INT NULL,
     difficult_level VARCHAR(40) NULL,
     passing_condition INT NUll
 );
 
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (1, 'money', 300, 500, 'easy', 50);
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (2, 'money', 500, 700, 'normal', 150);
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (3, 'money', 700, 2000, 'hard', 300);
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (4, 'weapon', 50, 200, 'easy', 50);
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (5, 'weapon', 200, 700, 'normal', 150);
-INSERT INTO reward (id, name, min_amount, max_amount, difficult_level, passing_condition) VALUES (6, 'weapon', 700, 2500, 'hard', 300);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (1, 'energy', 500, 'easy', 50);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (2, 'energy', 700, 'normal', 150);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (3, 'energy', 1000, 'hard', 300);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (4, 'weapon', 200, 'easy', 50);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (5, 'weapon', 700, 'normal', 150);
+INSERT INTO reward (id, name, amount, difficult_level, passing_condition) VALUES (6, 'weapon', 1000, 'hard', 300);
 
 CREATE TABLE player (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL, 
-    location VARCHAR(40)
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    location VARCHAR(40) DEFAULT 'Finland',
+    inventory_weapon INT NOT NULL DEFAULT 0,
+    inventory_energy INT NOT NULL DEFAULT 0,
+    game_status VARCHAR(40) NOT NULL DEFAULT 'not_started',
+    game_master_password VARCHAR(255) NULL,
+    game_master_password_retry_times INT NOT NULL DEFAULT 0,
+    game_start_at DATETIME NULL,
+    game_end_at DATETIME NULL,
+    game_actual_end_at DATETIME NULL,
+    game_paused_at DATETIME NULL,
+    game_password_collected VARCHAR(255) NULL,
+    game_completed_airports VARCHAR(255) NULL
 );
 
 CREATE TABLE ranking (
     id INT AUTO_INCREMENT PRIMARY KEY,
     player_id INT NOT NULL,
-    score DOUBLE NULL,
+    score INT NOT NULL,
+    duration VARCHAR(255) NULL,
+    weapon_remaining INT NULL,
+    energy_remaining INT NULL,
     CONSTRAINT `ranking_player_id_fk` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`)
 );
+

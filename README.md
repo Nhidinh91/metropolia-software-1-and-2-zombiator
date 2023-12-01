@@ -15,6 +15,11 @@ pip install python-dotenv
 ```
 
 These libraries are necessary for handling caching, database operations, user authentication, and web development in Flask.
+## Setup .env file
+SECRET_KEY=123456
+DATABASE_URI=mysql+mysqlconnector://YOUR_DB_USERNAME:YOUR_DB_PASSWORD@localhost/zombiator
+GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_API_KEY
+OPEN_WEATHER_API_KEY=YOUR_WEATHER_API_KEY
 
 ## Installation
 To run the Zombiator game, execute the main application file. Make sure you have set up the required environment variables, database configurations, and other necessary settings.

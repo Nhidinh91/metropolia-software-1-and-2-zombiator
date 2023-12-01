@@ -15,7 +15,9 @@ INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, co
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (8, 'EDDB', 'Frankfurt am Main Airport', 50.036249, 8.559294, 'EU', 'Germany', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (5, 'EETN', 'Lennart Meri Tallinn Airport', 59.41329956049999, 24.832799911499997, 'EU', 'Estonia', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (6, 'EFHK', 'Helsinki Vantaa Airport', 60.3172, 24.963301, 'EU', 'Finland', 1);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (26, 'EGLL', 'London Heathrow Airport', 51.4706, -0.461941, 'EU', 'United Kingdom', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (17, 'EHAM', 'Amsterdam Airport Schiphol', 52.308601, 4.76389, 'EU', 'Netherlands', 0);
+INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (27, 'EIDW', 'Dublin Airport', 53.421299, -6.27007, 'EU', 'Ireland', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (4, 'EKBI', 'Copenhagen Airport', 55.617900848389, 12.656000137329, 'EU', 'Denmark', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (15, 'ELLX', 'Luxembourg-Findel International Airport', 49.6233333, 6.2044444, 'EU', 'Luxembourg', 0);
 INSERT INTO airport (id, ident, name, latitude_deg, longitude_deg, continent, country, stage) VALUES (18, 'ENBR', 'Oslo Airport, Gardermoen', 60.193901, 11.1004, 'EU', 'Norway', 0);

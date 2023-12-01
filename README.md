@@ -23,6 +23,9 @@ GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_API_KEY
 OPEN_WEATHER_API_KEY=YOUR_WEATHER_API_KEY
 ```
 
+## Run Database script
+Run the database script ```create_table_and_data.sql``` in the folder /database_script
+
 ## Installation
 To run the Zombiator game, execute the main application file. Make sure you have set up the required environment variables, database configurations, and other necessary settings.
 

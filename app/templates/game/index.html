@@ -1,1 +1,289 @@
-Game
+{% extends 'base.html' %}
+
+{% block title %}Game{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+
+{% block containerClass %}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-3 w-100 h-100">
+    <div class="map-column w-100 h-100">
+        <div id="map" class="map w-100 h-100 d-flex justify-content-center align-items-center is-loading">
+            <div class="map-loader">
+                <div class="spinner-border text-light" role="status"></div>
+            </div>
+        </div>
+    </div>
+    <div class="info-column p-3 w-100 h-100">
+        <div class="game-info-container">
+            <div class="player-info text-center">
+                <h2 class="player-name-container flex-grow-1">
+                    <span>Welcome on board,</span>
+                    <div class="d-flex gap-1 justify-content-center">
+                        <span class="player-name"> {{ current_user.name }}</span>
+                        <button class="btn edit-name-button" title="Edit name">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </h2>
+                <div class="input-group gap-1 edit-name-form d-flex d-none">
+                    <input type="text" class="form-control player-name-input" placeholder="Enter your name" aria-label="Enter your name"
+                        aria-describedby="basic-addon2" value="{{ current_user.name }}">
+                    <button class="btn btn-success save-edit-name" type="button">Save</button>
+                    <button class="btn btn-danger cancel-edit-name" type="button">Cancel</button>
+                </div>
+            </div>
+
+            <div class="game-timer-container">
+                <h2 class="mt-2">Time Remaining</h2>
+                <div class="countdown">
+                    {% if current_user.game_status == 'completed' or current_user.game_status == 'failed' %}
+                        GAME OVER!
+                    {% else %}
+                        <div class="spinner-border text-light" role="status"></div>
+                    {% endif %}
+                </div>
+                
+                <div class="timer-buttons">
+                    <button class="btn btn-light pause-timer-button d-none" title="Pause timer">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="btn btn-light resume-timer-button d-none" title="Resume timer">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="inventory-container">
+                <h2>Your Inventory</h2>
+                <div class="player-inventory">
+                    <div class="inventory-item p-3 weapon">
+                        <div class="item-icon"><img src="{{ url_for('static', filename='images/weapon.png') }}"
+                                class="img-fluid" alt="Weapon"></div>
+                        <div class="item-quantity">{{ current_user.inventory_weapon }}</div>
+                        <div class="item-name">Weapons</div>
+                    </div>
+
+                    <div class="inventory-item p-3 energy">
+                        <div class="item-icon"><img src="{{ url_for('static', filename='images/batery.png') }}"
+                                class="img-fluid" alt="Energy"></div>
+                        <div class="item-quantity">{{ current_user.inventory_energy }}</div>
+                        <div class="item-name">Energy</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="password-container">
+                <h2>Password Fragments Collected</h2>
+                <div class="password-items">
+                    <div class="password-item password-number-1">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                            alt="Missing Password">
+                    </div>
+                    <div class="password-item password-number-2">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                            alt="Missing Password-number">
+                    </div>
+                    <div class="password-item password-number-3">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                            alt="Missing Password">
+                    </div>
+                    <div class="password-item password-number-4">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                            alt="Missing Password">
+                    </div>
+                    <div class="password-item password-number-5">
+                        <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                            alt="Missing Password">
+                    </div>
+                </div>
+            </div>
+            <div class="log-out">
+                <a class="btn btn-secondary log-out-button m-auto" title="Log out">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade game-result-modal" id="gameResult" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="game-result-container">
+                    <div class="game-result game-win">
+                        <div class="">
+                            <img src="{{ url_for('static', filename='images/you-win.png') }}" class="img-fluid"
+                                alt="Zombiator">
+                        </div>
+                        <div class="game-content">
+                            <div class="game-result-score p-2">
+                                <div class="score-value">1000</div>
+                            </div>
+                            <div class="p-2">
+                                <label class="game-result-label">Results</label>
+                                <div class="game-result-items p-2">
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/time.png') }}" class="img-fluid"
+                                            alt="Time"> <span class="time ml-2"></span>
+                                    </div>
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/weapon.png') }}"
+                                            class="img-fluid" alt="Weapon"> <span class="weapon ml-2"></span>
+                                    </div>
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/batery.png') }}"
+                                            class="img-fluid" alt="Energy"> <span class="energy ml-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-result game-lose d-none">
+                        <div class="">
+                            <img src="{{ url_for('static', filename='images/you-lose.png') }}" class="img-fluid"
+                                alt="Zombiator">
+                        </div>
+                        <div class="game-content mt-5">
+                            <div class="p-2">
+                                <label class="game-result-label">Results</label>
+                                <div class="game-result-items p-2">
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/time.png') }}" class="img-fluid"
+                                            alt="Time"> <span class="time ml-2"></span>
+                                    </div>
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/weapon.png') }}"
+                                            class="img-fluid" alt="Weapon"> <span class="weapon ml-2"></span>
+                                    </div>
+                                    <div class="result-item">
+                                        <img src="{{ url_for('static', filename='images/batery.png') }}"
+                                            class="img-fluid" alt="Energy"> <span class="energy ml-2"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-result-action">
+                        <a class="btn btn-primary p-0 replay-button m-auto" title="Replay">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/replay-icon.png') }}"
+                                alt="Replay">
+                        </a>
+                        <a class="btn btn-primary p-0 ranking-button m-auto" title="View Ranking">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/ranking-icon.png') }}"
+                                alt="Ranking">
+                        </a>
+                        <a class="btn btn-primary p-0 exit-button m-auto" title="Exit">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/exit-icon.png') }}"
+                                alt="Exit">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade game-result-ranking-modal" id="gameResultRanking" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="game-ranking-container">
+                    <div class="ranking-title mb-3">
+                        <img src="{{ url_for('static', filename='images/leaderboard.png') }}" class="img-fluid"
+                            alt="Ranking">
+                    </div>
+                    <div class="ranking-content">
+                        <div class="top-5-player-title">Top 5 players</div>
+                        <div class="ranking-list"></div>
+                        <div class="your-ranking p-3 d-none"></div>
+                    </div>
+                    <div class="game-result-action">
+                        <a class="btn btn-primary p-0 exit-button m-auto" title="Exit">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/exit-icon.png') }}"
+                                alt="Exit">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade final-password-modal" id="gameFinalPassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="text-center d-flex flex-column">
+                    <h2 class="text-center">Final password</h2>
+                    <div>
+                        <img src="{{ url_for('static', filename='images/vaccine.jpg') }}" class="img-fluid"
+                            alt="Vaccine">
+                        </div>
+                    <div class="text-instruction">
+                        Enter the final password to get the vaccine and save the world
+                    </div>
+                </div>
+                <div class="master-password-input-container mb-3 mt-0">
+                    <input type="text" id="otpInput1" class="master-password-input" maxlength="1" oninput="moveToNextPasswordPiece(this)" autocomplete="off" />
+                    <input type="text" id="otpInput2" class="master-password-input" maxlength="1" oninput="moveToNextPasswordPiece(this)" autocomplete="off" />
+                    <input type="text" id="otpInput3" class="master-password-input" maxlength="1" oninput="moveToNextPasswordPiece(this)" autocomplete="off" />
+                    <input type="text" id="otpInput4" class="master-password-input" maxlength="1" oninput="moveToNextPasswordPiece(this)" autocomplete="off" />
+                    <input type="text" id="otpInput5" class="master-password-input" maxlength="1" />
+                </div>
+                <div class="password-container">
+                    <h5>Password Fragments Collected</h2>
+                    <div class="password-items">
+                        <div class="password-item password-number-1">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                                alt="Missing Password">
+                        </div>
+                        <div class="password-item password-number-2">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                                alt="Missing Password-number">
+                        </div>
+                        <div class="password-item password-number-3">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                                alt="Missing Password">
+                        </div>
+                        <div class="password-item password-number-4">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                                alt="Missing Password">
+                        </div>
+                        <div class="password-item password-number-5">
+                            <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"
+                                alt="Missing Password">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-info unclock-password-button my-3" title="Unclock Password">Unclock</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=console.debug&libraries=maps,marker&v=beta"></script>
+<script>
+    const current_user_email = "{{ current_user.email }}";
+    let current_location = "{{ current_user.location }}";
+    let game_status = "{{ current_user.game_status }}";
+    let game_end_at = "{% if current_user.game_end_at %}{{ current_user.game_end_at }}{% endif %}";
+    let inventory_weapon = "{{ current_user.inventory_weapon }}";
+    let inventory_energy = "{{ current_user.inventory_energy }}";
+    let game_completed_airports = "{{ current_user.game_completed_airports }}";
+    let game_password_collected = "{{ current_user.game_password_collected }}";
+    const player_id = "{{ current_user.id }}";
+</script>
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+{% endblock %}

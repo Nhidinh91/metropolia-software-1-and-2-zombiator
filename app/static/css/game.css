@@ -1,0 +1,477 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Black Ops One', sans-serif;
+    background-image: url('../images/background-main.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.container-fluid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .container-fluid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-column {
+    display: grid;
+    align-self: start;
+    background-color: #f0f0f0;
+    align-items: center;
+}
+
+.info-column .copry-right {
+    align-self: end;
+    text-align: center;
+}
+
+.game-info-container {
+    display: grid;
+    gap: 1rem;
+    align-content: space-around;
+}
+
+.game-info-container .player-info {
+    min-height: 5rem;
+    display: flex;
+}
+
+.game-info-container .player-info .edit-name-button:hover {
+    background-color: #dcdcdc;
+}
+
+.game-info-container .game-timer-container {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.game-info-container .game-timer-container .countdown {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.game-info-container .inventory-container .player-inventory {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-info-container .inventory-container .player-inventory .inventory-item {
+    flex-grow: 1;
+    min-height: 6rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 .25rem .5rem rgba(0, 0, 0, 0.5);
+}
+
+.game-info-container .inventory-container .player-inventory .inventory-item .item-icon img {
+    width: 4rem;
+    height: 4rem;
+}
+
+@keyframes translateUp {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+.game-info-container .inventory-container .player-inventory .inventory-item .item-quantity {
+    font-size: 2rem;
+    font-weight: 600;
+    animation: translateUp 1s ease-out;
+}
+
+.game-info-container .inventory-container .player-inventory .money {
+    background-color: #dcfce7;
+}
+
+.game-info-container .inventory-container .player-inventory .weapon {
+    background-color: #ffe2e6;
+}
+
+.game-info-container .inventory-container .player-inventory .energy {
+    background-color: #dcfce7;
+}
+
+.game-info-container .password-container .password-items,
+.final-password-modal .password-container .password-items {
+    display: flex;
+    justify-content: center;
+}
+
+.game-info-container .password-container .password-item,
+.final-password-modal .password-container .password-item {
+    display: inline-block;
+    width: 4.063rem;
+    height: 4.063rem;
+    margin: 0.625rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1.75rem;
+    line-height: 3.5rem;
+    text-align: center;
+    box-shadow: 0 .25rem .5rem rgba(0, 0, 0, 0.5);
+}
+
+.game-info-container .log-out {
+    justify-self: end;
+}
+
+.game-result-modal .modal-content {
+    border-radius: 1rem;
+}
+
+.game-result-ranking-modal .modal-content {
+    border-radius: 1rem;
+}
+
+.game-result-modal .game-result-container {
+    display: grid;
+    grid-template-rows: 6fr 1fr;
+    justify-items: center;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    background-image: url('../images/background-result-main.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 1rem;
+}
+
+.game-result-modal .game-result-container .game-result {
+    border-radius: 1rem;
+    color: #e51740;
+    font-size: 1.25rem;
+    align-self: self-end;
+    max-width: 22rem;
+    background-color: #fef4eacf;
+}
+
+.game-result-modal .game-result-container .game-result .game-result-score .score-value {
+    font-size: 4rem;
+    color: #2fe919;
+    -webkit-text-stroke: 1px black;
+}
+
+.game-result-modal .game-result-container .game-result .game-result-score .best-score img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.game-result-modal .game-result-container .game-result .game-result-items {
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-result-modal .game-result-container .game-result .game-result-items .result-item img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.game-result-modal .game-result-action {
+    align-self: end;
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.game-result-modal .game-result-action .replay-button,
+.game-result-modal .game-result-action .ranking-button,
+.game-result-modal .game-result-action .exit-button {
+    background-color: #ef9e29;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+}
+
+.game-result-modal .game-result-action .replay-button:hover,
+.game-result-modal .game-result-action .ranking-button:hover,
+.game-result-modal .game-result-action .exit-button:hover {
+    box-shadow: 0 0 0 0.5rem rgba(239, 158, 41, 0.5);
+}
+
+.game-result-ranking-modal .game-ranking-container {
+    background-image: url('../images/background-result-main.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 1rem;
+    padding: 1.5rem 2.5rem;
+    justify-items: center;
+    display: grid;
+    gap: 1rem;
+}
+
+.game-result-ranking-modal .game-ranking-container .top-5-player-title {
+    font-size: 2rem;
+    color: #6c190c;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content {
+    background-color: #fffdee;
+    border: 1px solid #ac6901;
+    border-radius: 0.5rem;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #ac6901;
+    max-height: 30rem;
+    overflow: auto;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-item {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #ffe5ca;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    color: #6c190c;
+    min-width: 20rem;
+    align-items: center;
+    box-shadow: 0 .25rem .5rem rgba(0, 0, 0, 0.5);
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-item.self {
+    box-shadow: 0.25rem 0.5rem 0.5rem rgb(201 27 27);
+    border: 0.125rem solid #c91b1b;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-item:hover {
+    background-color: #ffcc99;
+    box-shadow: 0 .25rem .8rem rgba(0, 0, 0, 0.7);
+    color: #a11c00;
+}
+
+.game-result-ranking-modal .ranking-item.first {
+    color: #e51740;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.game-result-ranking-modal .ranking-item .ranking-item-position img {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-item .ranking-item-name {
+    flex-grow: 1;
+}
+
+.game-result-ranking-modal .ranking-item-score {
+    padding: 0.25rem 1.25rem;
+    background: #ac6901;
+    color: #fff;
+    border-radius: 0.65rem;
+    min-width: 10.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-result-ranking-modal .ranking-item-score img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.game-result-ranking-modal .game-ranking-container .ranking-content .ranking-item.your-ranking {
+    background-color: #ffb700;
+    color: #ffffff;
+}
+
+.game-result-ranking-modal .game-result-action .exit-button {
+    background-color: #ef9e29;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+}
+
+.game-result-ranking-modal .game-result-action .exit-button:hover {
+    box-shadow: 0 0 0 0.5rem rgba(239, 158, 41, 0.5);
+}
+
+.loadingModal {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loadingModal .modal-content {
+    background-color: transparent;
+    border: none;
+}
+
+.loadingModal .spinner-border {
+    width: 5rem;
+    height: 5rem;
+}
+
+.map.is-loading {
+    background-color: #242424;
+    opacity: 0.5;
+}
+
+.map .map-loader .spinner-border {
+    width: 5rem;
+    height: 5rem;
+}
+
+.map .info-window {
+    padding: 0.25rem;
+    font-size: 0.875rem;
+    display: grid;
+    gap: 0.75rem;
+    min-width: 20rem;
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+.map .info-window .airport-weather-info {
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: 400;
+}
+
+.map .info-window .airport-weather-info .pollution-level i {
+    font-size: 1rem;
+    margin-right: 0.125rem;
+}
+
+.map .info-window .airport-weather-info .pollution-level.moderate i {
+    color: #f0c808;
+}
+
+.map .info-window .airport-weather-info .pollution-level.good i,
+.map .info-window .airport-weather-info .pollution-level.fair i {
+    color: #8cc63e;
+}
+
+.map .info-window .airport-weather-info .pollution-level.poor i,
+.map .info-window .airport-weather-info .pollution-level.verypoor i {
+    color: #f04f08;
+}
+
+.map .info-window .airport-weather-info .temperature i {
+    font-size: 1rem;
+    color: #f04f08;
+    margin-right: 0.125rem;
+}
+
+.map .info-window .airport-weather-info .wind-speed i {
+    font-size: 1rem;
+    color: #2ca414;
+    margin-right: 0.125rem;
+}
+
+.map .info-window .airport-info {
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.map .info-window .airport-info span.item-value{
+    font-weight: bold;
+}
+
+.map .info-window .airport-info .difficulty-level .fa-star {
+    color: #f0c808;
+}
+
+.map .info-window .airport-info .needed-weapon img, 
+.map .info-window .airport-info .earned-weapon img, 
+.map .info-window .airport-info .earned-energy img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.map .info-window .airport-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.map .info-window.completed .airport-name i {
+    color: #2ca414;
+}
+
+.map .info-window .stage-fighting img {
+    height: 6rem;
+}
+
+.map .info-window .mission-result .win-fight .rewards,
+.map .info-window .mission-result .lose-fight .punishment {
+    justify-content: space-evenly;
+    font-weight: bold;
+}
+
+.map .info-window .mission-result .win-fight .rewards .reward-item,
+.map .info-window .mission-result .lose-fight .punishment .punishment-item {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.map .info-window .mission-result .win-fight .rewards .reward-item img,
+.map .info-window .mission-result .lose-fight .punishment .punishment-item img {
+    width: 1.5rem;
+    height: 1.5rem;
+   max-width: 100%;
+}
+
+.final-password-modal .text-instruction {
+    font-size: 0.875rem;
+    color: #616161;
+    padding: 1rem 4rem;
+}
+
+.final-password-modal .master-password-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.final-password-modal .master-password-input {
+    width: 2.5em;
+    text-align: center;
+    margin: 0 0.5em;
+    padding: 0.5em;
+    font-size: 1.2em;
+    border: none;
+    border-bottom: 1px solid #7b7b7b;
+}
+
+.final-password-modal .unclock-password-button {
+    color: white;
+    width: 10rem;
+    height: 3rem;
+}

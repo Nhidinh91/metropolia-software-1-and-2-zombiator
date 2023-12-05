@@ -1,0 +1,88 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Black Ops One', sans-serif;
+    background-image: url('../images/background-main.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.form-signin {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-signin .form-floating {
+    width: 25rem;
+}
+
+.form-signin .email,
+.form-signin .password {
+    color: #d7903b;
+}
+
+.form-signin label[for="email"],
+.form-signin label[for="password"] {
+    color: #d7903b;
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin .start-game-button {
+    background-color: #ef9e29;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+}
+
+.form-signin .other-game-button {
+    height: 2.5rem;
+    border-radius: 10rem;
+}
+
+.form-signin .start-game-button:hover {
+    box-shadow: 0 0 0 0.5rem rgba(239, 158, 41, 0.5);
+}
+
+.form-signin .other-game-button:hover {
+
+    box-shadow: 0 0 0 0.25rem rgba(239, 158, 41, 0.5);
+}
+
+.loadingModal {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loadingModal .modal-content {
+    background-color: transparent;
+    border: none;
+}
+
+.loadingModal .spinner-border {
+    width: 5rem;
+    height: 5rem;
+}
+
+.game-play-modal .video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.game-play-modal .video-container iframe {
+    position: absolute;
+    left: 0;
+}

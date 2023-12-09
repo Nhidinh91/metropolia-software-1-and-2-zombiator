@@ -15,7 +15,7 @@ body {
 .container-fluid {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    gap: 1rem;
+    gap: 1  rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -38,8 +38,12 @@ body {
 
 .game-info-container {
     display: grid;
-    gap: 1rem;
+    gap: .5rem;
     align-content: space-around;
+}
+
+.game-info-container h2 {
+    margin-bottom: 0;
 }
 
 .game-info-container .player-info {
@@ -57,6 +61,7 @@ body {
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
+    min-height: 180px;
 }
 
 .game-info-container .game-timer-container .countdown {

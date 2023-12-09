@@ -11,7 +11,7 @@
 {% block header %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid p-3 w-100 h-100">
+<div class="container-fluid p-1 w-100 h-100">
     <div class="map-column w-100 h-100">
         <div id="map" class="map w-100 h-100 d-flex justify-content-center align-items-center is-loading">
             <div class="map-loader">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="game-timer-container">
-                <h2 class="mt-2">Time Remaining</h2>
+                <h2>Time Remaining</h2>
                 <div class="countdown">
                     {% if current_user.game_status == 'completed' or current_user.game_status == 'failed' %}
                         GAME OVER!
@@ -61,7 +61,7 @@
 
             <div class="inventory-container">
                 <h2>Your Inventory</h2>
-                <div class="player-inventory">
+                <div class="player-inventory mt-1">
                     <div class="inventory-item p-3 weapon">
                         <div class="item-icon"><img src="{{ url_for('static', filename='images/weapon.png') }}"
                                 class="img-fluid" alt="Weapon"></div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="password-container">
-                <h2>Password Fragments Collected</h2>
+                <h2>Password Collected</h2>
                 <div class="password-items">
                     <div class="password-item password-number-1">
                         <img class="img-fluid" src="{{ url_for('static', filename='images/question-mark.png') }}"

@@ -370,17 +370,20 @@ body {
 }
 
 .map .info-window .airport-weather-info .pollution-level.moderate i {
-    color: #f0c808;
+    color: #ff7300;
 }
 
-.map .info-window .airport-weather-info .pollution-level.good i,
+.map .info-window .airport-weather-info .pollution-level.good i {
+    color: #2ca412;
+}
+
 .map .info-window .airport-weather-info .pollution-level.fair i {
-    color: #8cc63e;
+    color: #ffe251;
 }
 
 .map .info-window .airport-weather-info .pollution-level.poor i,
 .map .info-window .airport-weather-info .pollution-level.verypoor i {
-    color: #f04f08;
+    color: #ff4e02;
 }
 
 .map .info-window .airport-weather-info .temperature i {
@@ -397,7 +400,7 @@ body {
 
 .map .info-window .airport-info {
     display: grid;
-    gap: 0.25rem;
+    gap: 0.5rem;
     grid-template-columns: 1fr 1fr;
 }
 

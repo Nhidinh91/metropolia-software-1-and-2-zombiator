@@ -7,8 +7,9 @@
     let password_collected = [];
     const difficultyLevel = {
         'easy': 1,
-        'normal': 3,
-        'hard': 5,
+        'normal': 2,
+        'hard': 3,
+        'super_hard': 5,
     };
 
     const gameResult = async () => {
@@ -27,13 +28,15 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to get the game result');
+                displayNotification('Failed to get the game result', 'danger');
+                return;
             }
 
             const responseData = await response.json();
 
             if (responseData.status !== 1) {
-                alert('Failed to get the game result');
+                displayNotification('Failed to get the game result', 'danger');
+                return;
             }
 
             const minutes = Math.floor(responseData.game_duration / 60);
@@ -122,13 +125,14 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to start the game');
+                displayNotification('Failed to start the game', 'danger');
+                return;
             }
 
             const responseData = await response.json();
 
             if (responseData.status === -1) {
-                alert('Failed to start the game');
+                displayNotification('Failed to start the game', 'danger');
                 return;
             }
 
@@ -157,13 +161,14 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to start the game');
+                displayNotification('Failed to start the game', 'danger');
+                return;
             }
 
             const responseData = await response.json();
 
             if (responseData.status === -1) {
-                alert('Failed to start the game');
+                displayNotification('Failed to start the game', 'danger');
                 return;
             }
 
@@ -276,16 +281,23 @@
                     ariportInfo = '';
                 }
 
+                let weatherInfo = '';
+                if (current_location !== 'Spain') {
+                    weatherInfo = `
+                            <div class="airport-weather-info">
+                            <div class="pollution-level ${airport.pollution_level.toLowerCase().replace(' ', '-')}"><i class="fas fa-smog"></i> ${airport.pollution_level} </div>
+                            <div class="temperature"><i class="fas fa-thermometer-half"></i> ${airport.temperature}°C</div>
+                            <div class="wind-speed"><i class="fas fa-wind"></i> ${airport.wind_speed} meter/sec</div>
+                        </div>
+                    `
+                }
+
                 // Customize the content of the info window
                 infoContent = `
                     <div class="info-window completed" data-airport-id="${airport.id}">
                         <div class="airport-header">    
                             <div class="airport-name">${airport.name} <i class="fas fa-check-circle"></i></div>
-                            <div class="airport-weather-info">
-                                <div class="pollution-level ${airport.pollution_level.toLowerCase().replace(' ', '-')}"><i class="fas fa-smog"></i> ${airport.pollution_level} </div>
-                                <div class="temperature"><i class="fas fa-thermometer-half"></i> ${airport.temperature}°C</div>
-                                <div class="wind-speed"><i class="fas fa-wind"></i> ${airport.wind_speed} meter/sec</div>
-                            </div>
+                            ${weatherInfo}
                         </div>
                         ${ariportInfo}
                     </div>`;
@@ -384,43 +396,34 @@
                     <div class="info-window" data-airport-id="${airport.id}">
                         <div class="airport-header">    
                             <div class="airport-name">${airport.name}</div>
-                            <div class="airport-weather-info">
-                                <div class="pollution-level ${airport.pollution_level.toLowerCase().replace(' ', '-')}"><i class="fas fa-smog"></i> ${airport.pollution_level} </div> 
-                                <div class="temperature"><i class="fas fa-thermometer-half"></i> ${airport.temperature}°C</div>
-                                <div class="wind-speed"><i class="fas fa-wind"></i> ${airport.wind_speed} meter/sec</div>
-                            </div>
                         </div>
                         <div class="airport-info">
                             <div class="d-flex align-items-center gap-1">
                                 Difficulty Level:
                                 <span class="difficulty-level">
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </span>
                             </div>
                             <div class="d-flex align-items-center gap-1">
                                 Needed Weapon:
                                 <span class="needed-weapon item-value d-flex align-items-center gap-1">
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
+                                    ${airport.needed_weapon} <img src="static/images/weapon.png" class="img-fluid" />
                                 </span>
                             </div>
                             <div class="d-flex align-items-center gap-1">
                                 <span class="earned-weapon-text">Earning Weapon:</span>
                                 <span class="earned-weapon item-value d-flex align-items-center gap-1">
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
+                                   ${airport.rewards_weapon} <img src="static/images/weapon.png" class="img-fluid" />
                                 </span>
                             </div>
                             <div class="d-flex align-items-center gap-1">
                                 <span class="earned-energy-text">Earning Energy:</span>
                                 <span class="earned-energy item-value d-flex align-items-center gap-1">
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
-                                    <i class="fas fa-question"></i>
+                                    ${airport.rewards_energy} <img src="static/images/batery.png" class="img-fluid" />
                                 </span>
                             </div>
                         </div>
@@ -497,6 +500,7 @@
                             </div>
                         </div>
                         <div class="mission-result text-center d-none"></div>
+                        <input type="text" class="form-control assign-weapon" placeholder="Enter number of weapons want to use" onkeyup="validateAssignWeaponNumber(this)" />
                         <button class="btn btn-success" onclick="checkNeededEnergyAndStartRescue('${airport.id}')">Rescue</button>
                     </div>`;
             }
@@ -514,6 +518,16 @@
             markerList.push(marker);
         });
     };
+
+    const validateAssignWeaponNumber = (input) => {
+        // Replace the input value with the number only
+        input.value = input.value.replace(/[^0-9]/g, '');
+
+        // If the input value is empty, return
+        if (input.value === '') {
+            return;
+        }
+    }
 
     const buildCompletedAirportsList = (airportList) => {
         completed_airports = [];
@@ -554,13 +568,15 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to load airport list');
+                displayNotification('Failed to load airport list', 'danger');
+                return;
             }
 
             const responseData = await response.json();
 
             if (responseData.status !== 1) {
-                alert('Failed to load airport list');
+                displayNotification('Failed to load airport list', 'danger');
+                return;
             }
 
             airportList = responseData.airports;
@@ -596,7 +612,8 @@
             const responseData = await response.json();
 
             if (responseData.status !== 1) {
-                alert('Failed to start the game');
+                displayNotification('Failed to rescue the airport', 'danger');
+                return;
             }
 
             game_completed_airports = responseData.player.game_completed_airports;
@@ -638,13 +655,13 @@
             const responseData = await response.json();
 
             if (responseData.status !== 1) {
-                alert(responseData.message);
+                displayNotification(responseData.message, 'danger');
                 return;
             }
 
             const neededEnergy = responseData.needed_energy;
             if (inventory_energy < neededEnergy) {
-                alert(`You need ${neededEnergy} energy to rescue this airport.`)
+                displayNotification(`You need ${neededEnergy} energy to rescue this airport.`, 'danger')
                 return;
             }
             startRescue(airportId, neededEnergy);
@@ -664,7 +681,29 @@
             return a.id === airportId || a.id === parseInt(airportId);
         });
 
+        if (airport === undefined) {
+            displayNotification('Failed to start the rescue', 'danger');
+            return;
+        }
+
+        let assignWeaponValue = 0;
+        if (airport.country === 'Spain') {
+            assignWeaponValue = airport.needed_weapon;
+        } else {
+            const assignWeaponInput = infoWindow.querySelector('.assign-weapon');
+            // If assignWeaponValue is empty, alert the player
+            if (assignWeaponInput.value === '' || isNaN(assignWeaponInput.value)) {
+                console.log(assignWeaponInput.value);
+                displayNotification('Please enter the number of weapons you want to use', 'danger');
+                return;
+            }
+            assignWeaponValue = parseInt(assignWeaponInput.value);
+        }
+
         infoWindow.querySelector('button').classList.add('d-none');
+        if (infoWindow.querySelector('.assign-weapon') !== null) {
+            infoWindow.querySelector('.assign-weapon').classList.add('d-none');
+        }
 
         // Render font awesome stars based on the difficulty level
         let difficultyLevelStars = '';
@@ -676,8 +715,15 @@
 
         airportInfo.classList.add('d-none');
         stageFighting.classList.remove('d-none');
+        const isBossStage = airport.stage === 2;
 
-        if (inventory_weapon >= airport.needed_weapon) {
+        if (assignWeaponValue >= airport.needed_weapon) {
+            let winFightAnimation = 'static/images/win-fight.gif';
+            if (isBossStage) {
+                winFightAnimation = 'static/images/win-boss-fight.gif';
+            }
+            fightWinLoading.querySelector('.fight-win-loading img').src = winFightAnimation;
+
             fightWinLoading.classList.remove('d-none');
             fightLoseLoading.classList.add('d-none');
             setTimeout(() => {
@@ -712,9 +758,9 @@
                     infoWindow.querySelector('.earned-energy').innerHTML = `${airport.rewards_energy} <img src="static/images/batery.png" class="img-fluid" />`;
 
                     airportInfo.classList.remove('d-none');
-                }, 5000);
+                }, 3000);
 
-                const new_inventory_weapon = parseInt(inventory_weapon) - parseInt(airport.needed_weapon) + parseInt(airport.rewards_weapon);
+                const new_inventory_weapon = parseInt(inventory_weapon) - parseInt(assignWeaponValue) + parseInt(airport.rewards_weapon);
                 const new_inventory_energy = parseInt(inventory_energy) - parseInt(neededEnergy) + parseInt(airport.rewards_energy);
 
                 document.querySelector('.inventory-item.weapon .item-quantity').innerHTML = new_inventory_weapon;
@@ -725,7 +771,7 @@
                 // Put the current location to game_completed_airports
                 completed_airports.push(airport);
                 // If the password_collected does not contain the password piece, add it
-                if (!password_collected.includes(airport.password_piece)) {
+                if (!password_collected.includes(airport.password_piece) && airport.password_piece !== null && airport.password_piece !== "") {
                     password_collected.push(airport.password_piece);
                 }
                 current_location = airport.country;
@@ -771,7 +817,7 @@
 
                 marker.setIcon({
                     url: 'static/images/current_location.png',
-                    scaledSize: new google.maps.Size(60, 60),
+                    scaledSize: new google.maps.Size(100, 100),
                 });
 
             }, 4000);
@@ -780,12 +826,8 @@
             fightLoseLoading.classList.remove('d-none');
             setTimeout(() => {
                 // Reduce the inventory_weapon and inventory_energy by the airport.needed_weapon and neededEnergy to fly there
-                let new_inventory_weapon = parseInt(inventory_weapon) - parseInt(airport.needed_weapon);
+                let new_inventory_weapon = parseInt(inventory_weapon) - parseInt(assignWeaponValue);
                 let new_inventory_energy = parseInt(inventory_energy) - parseInt(neededEnergy);
-
-                // Punish the player by reducing the inventory_weapon and inventory_energy by 10% of the original value
-                const punish_inventory_weapon = Math.ceil(0.1 * parseInt(new_inventory_weapon));
-                const punish_inventory_energy = Math.ceil(0.1 * parseInt(new_inventory_energy));
 
                 stageFighting.classList.add('d-none');
                 fightLoseLoading.classList.add('d-none');
@@ -798,29 +840,32 @@
                         <span><strong>Punishment for this mission</strong></span>
                         <div class="punishment d-flex align-items-center gap-2 mt-2">
                             <div class="punishment-item d-flex align-items-center gap-2">
-                                <span class="punishment-value">-${punish_inventory_weapon}</span>
+                                <span class="punishment-value">-${assignWeaponValue}</span>
                                 <img src="static/images/weapon.png" class="img-fluid" />
                             </div>
                             <div class="punishment-item d-flex align-items-center gap-2">
-                                <span class="punishment-value">-${punish_inventory_energy}</span>
+                                <span class="punishment-value">-${neededEnergy}</span>
                                 <img src="static/images/batery.png" class="img-fluid" />
                             </div>
                         </div>
                     </div>
                 `
-                const final_inventory_weapon = new_inventory_weapon - punish_inventory_weapon;
-                document.querySelector('.inventory-item.weapon .item-quantity').innerHTML = final_inventory_weapon;
-                inventory_weapon = final_inventory_weapon;
+                // const final_inventory_weapon = new_inventory_weapon - punish_inventory_weapon;
+                document.querySelector('.inventory-item.weapon .item-quantity').innerHTML = new_inventory_weapon;
+                inventory_weapon = new_inventory_weapon;
 
-                const final_inventory_energy = new_inventory_energy - punish_inventory_energy;
-                document.querySelector('.inventory-item.energy .item-quantity').innerHTML = final_inventory_energy;
-                inventory_energy = final_inventory_energy;
+                // const final_inventory_energy = new_inventory_energy - punish_inventory_energy;
+                document.querySelector('.inventory-item.energy .item-quantity').innerHTML = new_inventory_energy;
+                inventory_energy = new_inventory_energy;
 
                 setTimeout(() => {
                     infoWindow.querySelector('button').classList.remove('d-none');
+                    if (infoWindow.querySelector('.assign-weapon') !== null) {
+                        infoWindow.querySelector('.assign-weapon').classList.remove('d-none');
+                    }
                     infoWindow.querySelector('.mission-result').classList.add('d-none');
                     airportInfo.classList.remove('d-none');
-                }, 5000);
+                }, 3000);
 
                 const updateData = {
                     rescue_status: 0,
@@ -846,13 +891,15 @@
             });
 
             if (!response.ok) {
-                throw new Error('Failed to log out');
+                displayNotification('Failed to log out', 'danger');
+                return;
             }
 
             const responseData = await response.json();
 
             if (responseData.status !== 1) {
-                alert('Failed to log out');
+                displayNotification('Failed to log out', 'danger');
+                return;
             }
 
             window.location.href = '/';
@@ -921,10 +968,10 @@
 
             if (responseData.status !== 1) {
                 if (responseData.player.game_master_password_retry_times < 5) {
-                    alert(responseData.message);
+                    displayNotification(responseData.message, 'danger');
                     return;
                 } else {
-                    alert(responseData.message);
+                    displayNotification(responseData.message, 'danger');
                     gameEnd('failed', () => {
                         gameResult();
                     });
@@ -1131,18 +1178,18 @@
     }
 
     const init = () => {
-        setUpGame();
+        document.querySelector('.background-sounds .audio').src = 'static/sounds/background-2.mp3';
 
-        if (game_status === "need_master_password") {
-            buildPasswordCollectedList();
-            setTimeout(() => {
-                $('.final-password-modal').modal('show');
-            }, 1000);
-        }
+        setUpGame();
 
         if (game_status === "completed" || game_status === "failed") {
             setTimeout(() => {
                 gameResult();
+            }, 1000);
+        } else if (game_status === "need_master_password") {
+            buildPasswordCollectedList();
+            setTimeout(() => {
+                $('.final-password-modal').modal('show');
             }, 1000);
         }
 
@@ -1213,5 +1260,5 @@
 
     window.checkNeededEnergyAndStartRescue = checkNeededEnergyAndStartRescue; // Expose the checkNeededEnergyAndStartRescue function to the global scope
     window.moveToNextPasswordPiece = moveToNextPasswordPiece; // Expose the moveToNextPasswordPiece function to the global scope
-
+    window.validateAssignWeaponNumber = validateAssignWeaponNumber; // Expose the validateAssignWeaponNumber function to the global scope
 })();

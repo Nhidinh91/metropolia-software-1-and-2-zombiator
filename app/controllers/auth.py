@@ -2,10 +2,13 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_login import login_user, login_required, logout_user, current_user
 from app.models.player import Player
 from app import db
-
+from datetime import timedelta
+import os
+from dotenv import load_dotenv
 
 auth = Blueprint("auth", __name__)
 
+load_dotenv()
 
 @auth.route("/")
 def login():
@@ -29,8 +32,8 @@ def login_post():
         db.session.add(new_player)
         db.session.commit()
 
-        # Log in the new user
-        login_user(new_player, remember=True)
+        # Log in the new user with duration is 1 day
+        login_user(new_player, remember=True, duration=timedelta(days=1))
 
         return jsonify(
             {"status": 1, "message": "Player created and logged in successfully"}
@@ -39,7 +42,7 @@ def login_post():
         # User exists, check the password
         if player.check_password(password):
             # Password is correct, log in the player
-            login_user(player, remember=True)
+            login_user(player, remember=True, duration=timedelta(days=1))
             return jsonify({"status": 1, "message": "Logged in successfully"})
         else:
             # Password is incorrect
@@ -56,12 +59,13 @@ def logout():
     player.game_actual_end_at = None
     player.game_paused_at = None
     player.game_password_collected = ""
-    player.game_completed_airports = ""
+    player.game_completed_airports = "Finland"
     player.game_master_password = ""
     player.game_master_password_retry_times = 0
-    player.inventory_weapon = 200
-    player.inventory_energy = 500
+    player.inventory_weapon = os.getenv("INIT_WEAPONS_NUMBER")
+    player.inventory_energy = os.getenv("INIT_ENERGY_NUMBER")
     player.location = "Finland"
+    
     db.session.commit()
 
     logout_user()

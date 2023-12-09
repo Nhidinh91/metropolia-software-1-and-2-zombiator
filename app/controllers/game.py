@@ -21,16 +21,12 @@ load_dotenv()
 
 game = Blueprint("game", __name__)
 
-game_level_hard = "hard"
-game_level_normal = "normal"
-game_level_easy = "easy"
-
 
 @game.route("/game")
 def home():
     # If the user is not logged in, redirect to the login page
-    # if not current_user.is_authenticated:
-    #     return redirect(url_for("auth.login"))
+    if not current_user.is_authenticated:
+        return redirect(url_for("auth.login"))
 
     google_maps_api_key = os.getenv("GOOGLE_MAPS_API_KEY")
     return render_template("game/index.html", google_maps_api_key=google_maps_api_key)
@@ -45,33 +41,53 @@ def airports():
         return jsonify({"status": -1, "message": "Cannot find player"})
 
     password_pieces = player.game_master_password.split(",")
-
+    random.shuffle(airports)
     # Construct the airport list with password pieces
     # and weather information and rewards
-    airport_list = [
-        {
+    airport_list = []
+    count = 0
+    for airport in airports:
+        # Ignore Spain and Finland airport
+
+        if airport.country == "Spain":
+            continue
+
+        if airport.country == "Finland":
+            password_piece = ""
+
+        if count < 5:
+            password_piece = password_pieces[count]
+        elif count >= 5:
+            password_piece = ""
+
+        airport_info = {
             "id": airport.id,
             "ident": airport.ident,
             "name": airport.name,
-            "password_piece": random.choice(password_pieces),
+            "password_piece": password_piece,
             "latitude_deg": airport.latitude_deg,
             "longitude_deg": airport.longitude_deg,
             "continent": airport.continent,
             "country": airport.country,
             "stage": airport.stage,
         }
-        for airport in airports
-    ]
+
+        airport_list.append(airport_info)
+        count += 1
 
     for airport in airport_list:
+        latitude, longitude = str(airport["latitude_deg"]), str(
+            airport["longitude_deg"]
+        )
+
         # Get the weather information
-        weather_info = Util.get_weather_info(airport)
+        weather_info = Util.get_weather_info(latitude, longitude)
         point = weather_info["weather_point"]
         airport["temperature"] = weather_info["temperature"]
         airport["wind_speed"] = weather_info["wind_speed"]
 
         # Get the pollution information
-        polution_info = Util.get_pollution_info(airport)
+        polution_info = Util.get_pollution_info(latitude, longitude)
         point += polution_info["pollution_point"]
         airport["pollution_level"] = polution_info["pollution_level"]
 
@@ -90,10 +106,25 @@ def airports():
         # Assign the rewards based on the difficulty level
         Util.update_airport_difficulty(airport, point, reward_list)
 
-        # If the airport is in the boss stage, then the needed weapon is 2000
-        if int(airport["stage"]) == 2:
-            airport["needed_weapon"] = 2000
-            airport["difficulty_level"] = "hard"
+    # Call DB get Spain airport
+    spain_airport = Airport.query.filter_by(country="Spain").first()
+    spain_airport_dict = {
+        "id": spain_airport.id,
+        "ident": spain_airport.ident,
+        "name": spain_airport.name,
+        "latitude_deg": spain_airport.latitude_deg,
+        "longitude_deg": spain_airport.longitude_deg,
+        "continent": spain_airport.continent,
+        "country": spain_airport.country,
+        "stage": spain_airport.stage,
+        "needed_weapon": 2000,
+        "difficulty_level": "super_hard",
+        "rewards_energy": 2000,
+        "rewards_weapon": 2000,
+        "password_piece": "",
+    }
+
+    airport_list.append(spain_airport_dict)
 
     return jsonify(
         {
@@ -113,8 +144,8 @@ def setup():
     # The game hasn't started and need to be setup
     if player.game_status == "not_started":
         player.location = "Finland"
-        player.inventory_weapon = 200
-        player.inventory_energy = 500
+        player.inventory_weapon = os.getenv("INIT_WEAPONS_NUMBER")
+        player.inventory_energy = os.getenv("INIT_ENERGY_NUMBER")
         player.game_start_at = None
         player.game_end_at = None
         player.game_actual_end_at = None
@@ -126,12 +157,16 @@ def setup():
         )
         player.game_master_password_retry_times = 0
 
-        login_user(player, remember=True)
+        login_user(player, remember=True, duration=timedelta(days=1))
 
         db.session.commit()
 
         return jsonify(
-            {"status": 1, "message": "Game setup successfully", "player": player.get_info()}
+            {
+                "status": 1,
+                "message": "Game setup successfully",
+                "player": player.get_info(),
+            }
         )
 
     return jsonify({"status": 0, "message": "Game already setup"})
@@ -238,11 +273,11 @@ def start():
 
     player.game_status = "started"
     player.game_start_at = datetime.now()
-    player.game_end_at = datetime.now() + timedelta(minutes=20)
+    player.game_end_at = datetime.now() + timedelta(minutes=10)
 
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     player_info = player.get_info()
     player_info["game_start_at"] = player.game_start_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -309,7 +344,7 @@ def rescue_airport():
 
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     return jsonify(
         {
@@ -338,7 +373,7 @@ def end():
     player.game_actual_end_at = datetime.now()
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     # Only update or add the ranking if the game is finished successfully
     if game_status == "completed":
@@ -433,11 +468,23 @@ def retry():
     if player.game_status == "not_started":
         return jsonify({"status": -1, "message": "Game not started"})
 
-    # Just need to set the status to 0 and the route /game/start will handle the rest
+    # Reset the player info to the initial state
     player.game_status = "not_started"
+    player.game_start_at = None
+    player.game_end_at = None
+    player.game_actual_end_at = None
+    player.game_paused_at = None
+    player.game_password_collected = ""
+    player.game_completed_airports = "Finland"
+    player.game_master_password = ""
+    player.game_master_password_retry_times = 0
+    player.inventory_weapon = os.getenv("INIT_WEAPONS_NUMBER")
+    player.inventory_energy = os.getenv("INIT_ENERGY_NUMBER")
+    player.location = "Finland"
+
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     return jsonify(
         {
@@ -467,7 +514,10 @@ def unclock_master_password():
         return jsonify({"status": -1, "message": "Game already finished"})
 
     # Check if the master password is correct
-    if ( player.game_master_password == master_password and player.game_master_password_retry_times < 5 ):
+    if (
+        player.game_master_password == master_password
+        and player.game_master_password_retry_times < 5
+    ):
         return jsonify(
             {
                 "status": 1,
@@ -475,12 +525,14 @@ def unclock_master_password():
                 "player": player.get_info(),
             }
         )
-    elif ( player.game_master_password_retry_times > 5 ):  # If the player has tried more than 5 times, then game_status = 4 meaning the game is failed
+    elif (
+        player.game_master_password_retry_times > 5
+    ):  # If the player has tried more than 5 times, then game_status = 4 meaning the game is failed
         player.game_status = "failed"
         player.game_actual_end_at = datetime.now()
         db.session.commit()
 
-        login_user(player, remember=True)
+        login_user(player, remember=True, duration=timedelta(days=1))
 
         return jsonify(
             {
@@ -493,12 +545,21 @@ def unclock_master_password():
         player.game_master_password_retry_times += 1
         db.session.commit()
 
-        login_user(player, remember=True)
+        login_user(player, remember=True, duration=timedelta(days=1))
 
+        message = "Master password incorrect. You have " + str(
+            5 - player.game_master_password_retry_times
+        ) + " times left"
+
+        if player.game_master_password_retry_times == 5:
+            message = (
+                "Master password incorrect. You have tried more than 5 times, and the game is failed"
+            )
+        
         return jsonify(
             {
                 "status": -1,
-                "message": "Master password incorrect",
+                "message": message,
                 "player": player.get_info(),
             }
         )
@@ -570,7 +631,7 @@ def update_player_info():
 
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     return jsonify(
         {
@@ -607,7 +668,7 @@ def pause_or_resume_game_timer():
 
     db.session.commit()
 
-    login_user(player, remember=True)
+    login_user(player, remember=True, duration=timedelta(days=1))
 
     player_info = player.get_info()
     player_info["game_end_at"] = player.game_end_at.strftime("%Y-%m-%d %H:%M:%S")
@@ -621,28 +682,46 @@ def pause_or_resume_game_timer():
     )
 
 
-@game.route("/game/check-needed-energy/<current_location>/<destination>/", methods=["GET"])
+@game.route(
+    "/game/check-needed-energy/<current_location>/<destination>/", methods=["GET"]
+)
 def check_energy_of_two_location(current_location, destination):
     if current_user.game_status == "not_started":
         return jsonify({"status": -1, "message": "Game not started"})
-    
+
     if current_user.game_status == "completed" or current_user.game_status == "failed":
         return jsonify({"status": -1, "message": "Game already finished"})
-    
+
     if current_user.game_status == "need_master_password":
-        return jsonify({"status": -1, "message": "You are defeated the boss stage, please enter the master password"})
+        return jsonify(
+            {
+                "status": -1,
+                "message": "You are defeated the boss stage, please enter the master password",
+            }
+        )
 
     if current_location == destination:
-        return jsonify({ "status": -1, "message": "The two locations are the same, no energy needed"})
+        return jsonify(
+            {
+                "status": -1,
+                "message": "The two locations are the same, no energy needed",
+            }
+        )
 
     if current_location == "" or destination == "":
-        return jsonify({"status": -1, "message": "The two locations are not valid" })
+        return jsonify({"status": -1, "message": "The two locations are not valid"})
 
     # Get the airport from the db
     current_location_info = Airport.query.filter_by(country=current_location).first()
-    current_coordinate = (current_location_info.latitude_deg, current_location_info.longitude_deg)
+    current_coordinate = (
+        current_location_info.latitude_deg,
+        current_location_info.longitude_deg,
+    )
     destination_info = Airport.query.filter_by(country=destination).first()
-    destination_coordinate = (destination_info.latitude_deg, destination_info.longitude_deg)
+    destination_coordinate = (
+        destination_info.latitude_deg,
+        destination_info.longitude_deg,
+    )
     distance = round(geodesic(current_coordinate, destination_coordinate).kilometers, 0)
     needed_energy = distance
 
@@ -650,6 +729,6 @@ def check_energy_of_two_location(current_location, destination):
         {
             "status": 1,
             "message": "Game timer updated successfully",
-            "needed_energy": needed_energy
+            "needed_energy": needed_energy,
         }
     )

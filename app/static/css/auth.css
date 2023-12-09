@@ -79,10 +79,87 @@ body {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
 }
 
 .game-play-modal .video-container iframe {
     position: absolute;
     left: 0;
+}
+
+.slider-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+.slider-container .slides .slide-item {
+    display: none;
+}
+
+.slider-container .buttons-container .prev,
+.slider-container .buttons-container .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -2rem;
+    padding: 0.85rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.slider-container .buttons-container .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.slider-container .buttons-container .prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.slider-container .buttons-container .prev:hover,
+.slider-container .buttons-container .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slider-container .dots-container {
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+}
+
+.slider-container .dots-container .dot {
+    cursor: pointer;
+    height: 1rem;
+    width: 1rem;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.slider-container .dots-container .active,
+.slider-container .dots-container .dot:hover {
+    background-color: #717171;
+}
+
+.slider-container .fade-animation {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
 }

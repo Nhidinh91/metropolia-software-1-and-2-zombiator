@@ -62,6 +62,7 @@
     };
 
     const init = () => {
+        const audio = document.querySelector('.background-sounds .audio');
         // Keyup enter event listener
         document.querySelector('.email').addEventListener('keyup', (event) => {
             if (event.keyCode === 13) {
@@ -80,6 +81,25 @@
 
         // Add event listener to start game button
         document.querySelector('.start-game-button').addEventListener('click', gameStart);
+
+        const gamePlayModal = document.querySelector('.game-play-modal');
+        gamePlayModal.addEventListener('hidden.bs.modal', event => {
+          audio.play();
+
+          // Stop all playing iframe video
+          const videos = document.querySelectorAll('iframe, video');
+          Array.prototype.forEach.call(videos, function (video) {
+            if (video.tagName.toLowerCase() === 'video') {
+              video.pause();
+            } else {
+              video.src = video.src;
+            }
+          });
+        })
+
+        gamePlayModal.addEventListener('shown.bs.modal', event => {
+          audio.pause();
+        })
     };
 
     init();

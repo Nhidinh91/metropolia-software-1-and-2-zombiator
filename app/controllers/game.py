@@ -568,50 +568,65 @@ def unclock_master_password():
 @game.route("/game/rankings", methods=["GET"])
 def rankings():
     rankings = Ranking.query.order_by(Ranking.score.desc()).limit(5).all()
-    ranking_list = [ranking.get_info() for ranking in rankings]
-    # Get the player info from the list
-    for ranking in ranking_list:
-        player = Player.query.filter_by(id=ranking["player_id"]).first()
-        ranking["player_name"] = player.name
-        ranking["player_position"] = ranking_list.index(ranking) + 1
+    # If there is no ranking, then return empty list
+    if not rankings:
+        return jsonify(
+            {"status": 1, "message": "Rankings fetched successfully", "rankings": []}
+        )
+    else:
+        ranking_list = [ranking.get_info() for ranking in rankings]
+        # Get the player info from the list
+        for ranking in ranking_list:
+            player = Player.query.filter_by(id=ranking["player_id"]).first()
+            ranking["player_name"] = player.name
+            ranking["player_position"] = ranking_list.index(ranking) + 1
 
-    # Get current player's ranking
-    player = Player.query.filter_by(id=current_user.id).first()
-    player_ranking = Ranking.query.filter_by(player_id=player.id).first()
-    player_ranking_info = player_ranking.get_info()
-    player_ranking_info["player_name"] = player.name
+        # Get current player's ranking
+        player = Player.query.filter_by(id=current_user.id).first()
+        player_ranking = Ranking.query.filter_by(player_id=player.id).first()
+        if not player_ranking:
+            return jsonify(
+                {
+                    "status": 1,
+                    "message": "Rankings fetched successfully",
+                    "rankings": ranking_list,
+                }
+            )
 
-    # If player is not in the top 5, then add the player to the list only 1 time
-    is_player_in_ranking = False
-    for ranking in ranking_list:
-        if ranking["player_id"] == player_ranking_info["player_id"]:
-            is_player_in_ranking = True
-            break
-
-    if not is_player_in_ranking:
+        player_ranking_info = player_ranking.get_info()
         player_ranking_info["player_name"] = player.name
-        # Get the player position is equal to the position in the database + 1
-        # Get all the rankings from the database
-        all_rankings = Ranking.query.order_by(Ranking.score.desc()).all()
-        # Get the player position
-        player_ranking_info["player_position"] = all_rankings.index(player_ranking) + 1
+
+        # If player is not in the top 5, then add the player to the list only 1 time
+        is_player_in_ranking = False
+        for ranking in ranking_list:
+            if ranking["player_id"] == player_ranking_info["player_id"]:
+                is_player_in_ranking = True
+                break
+
+        if not is_player_in_ranking:
+            player_ranking_info["player_name"] = player.name
+            # Get the player position is equal to the position in the database + 1
+            # Get all the rankings from the database
+            all_rankings = Ranking.query.order_by(Ranking.score.desc()).all()
+            # Get the player position
+            player_ranking_info["player_position"] = all_rankings.index(player_ranking) + 1
+
+            return jsonify(
+                {
+                    "status": 1,
+                    "message": "Rankings fetched successfully",
+                    "rankings": ranking_list,
+                    "player_ranking": player_ranking_info,
+                }
+            )
 
         return jsonify(
             {
                 "status": 1,
                 "message": "Rankings fetched successfully",
                 "rankings": ranking_list,
-                "player_ranking": player_ranking_info,
             }
         )
-
-    return jsonify(
-        {
-            "status": 1,
-            "message": "Rankings fetched successfully",
-            "rankings": ranking_list,
-        }
-    )
 
 
 @game.route("/game/update-player-info", methods=["POST"])

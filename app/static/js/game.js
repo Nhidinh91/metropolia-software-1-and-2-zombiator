@@ -693,8 +693,12 @@
             const assignWeaponInput = infoWindow.querySelector('.assign-weapon');
             // If assignWeaponValue is empty, alert the player
             if (assignWeaponInput.value === '' || isNaN(assignWeaponInput.value)) {
-                console.log(assignWeaponInput.value);
                 displayNotification('Please enter the number of weapons you want to use', 'danger');
+                return;
+            }
+
+            if (parseFloat(assignWeaponInput.value) > inventory_weapon) {
+                displayNotification(`You can't assign the number of weapons that greater than the number of weapons you have in your inventory`, 'danger');
                 return;
             }
             assignWeaponValue = parseInt(assignWeaponInput.value);
@@ -1196,7 +1200,7 @@
         // This is the interval to check if the player has enough energy and weapon in the inventory
         // to continue the game
         checkingInventoryInterval = setInterval(() => {
-            if (parseInt(inventory_energy) <= 0 || parseInt(inventory_weapon) <= 0) {
+            if (game_status !== "completed" && game_status !== "failed" && (parseInt(inventory_energy) <= 0 || parseInt(inventory_weapon) <= 0)) {
                 clearInterval(checkingInventoryInterval);
                 gameEnd("failed", () => {
                     gameResult();

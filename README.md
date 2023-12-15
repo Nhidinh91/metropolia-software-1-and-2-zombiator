@@ -22,6 +22,11 @@ DATABASE_URI=mysql+mysqlconnector://YOUR_DB_USERNAME:YOUR_DB_PASSWORD@localhost/
 GOOGLE_MAPS_API_KEY=YOUR_GOOGLE_API_KEY
 OPEN_WEATHER_API_KEY=YOUR_WEATHER_API_KEY
 ```
+To get the YOUR_GOOGLE_API_KEY and YOUR_WEATHER_API_KEY, please follow these materials
+
+**GOOGLE_API_KEY** : https://developers.google.com/maps/get-started
+
+**WEATHER_API_KEY** : https://openweathermap.org/appid
 
 ## Run Database script
 Run the database script ```create_table_and_data.sql``` in the folder /database_script

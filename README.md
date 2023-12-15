@@ -38,6 +38,9 @@ To run the Zombiator game, execute the main application file. Make sure you have
 python main_app.py
 ```
 
+## Demo
+https://youtu.be/53F7XcFjoOQ
+
 ## Additional Notes
 - This project uses Flask, a web framework for Python, for developing the game application.
 - The game involves features related to weather, pollution, rewards, and airport management.

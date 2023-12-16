@@ -39,7 +39,7 @@ python main_app.py
 ```
 
 ## Demo
-https://youtu.be/53F7XcFjoOQ
+https://www.youtube.com/watch?v=dvaXOy4q1Bc&ab_channel=ThaoNhiDinh
 
 ## Additional Notes
 - This project uses Flask, a web framework for Python, for developing the game application.
